@@ -64,17 +64,6 @@ class IlluminanceSensor(CoordinatorEntity, Entity):
         """Return True if roller and hub is available."""
         return True
 
-    async def async_added_to_hass(self):
-        """Run when this Entity has been added to HA."""
-        # Sensors should also register callbacks to HA when their state changes
-        self.coordinator.async_add_listener(self._handle_coordinator_update)
-        self._roller.register_callback(self.async_write_ha_state)
-
-    async def async_will_remove_from_hass(self):
-        """Entity being removed from hass."""
-        # The opposite of async_added_to_hass. Remove any registered call backs here.
-        self._roller.remove_callback(self.async_write_ha_state)
-
     @callback
     def _handle_coordinator_update(self) -> None:
         """Handle updated data from the coordinator."""
